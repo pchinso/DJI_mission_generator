@@ -2,9 +2,15 @@ from string import Template
 import sys
 from waypoint import WayPoint
 
+# Removed
+#                  reverse_coordonates_transformer,
 
-def dict2djikml (dic,output_filename,reverse_coordonates_transformer,
-                 altitude,onfinish='hover',speed = 5,turnmode = 'Auto',
+def dict2djikml (dic,
+                 output_filename,
+                 altitude,
+                 onfinish='hover',
+                 speed = 5,
+                 turnmode = 'Auto',
                  over_time_before_picture=0):
     extra_points=[]
 
@@ -144,27 +150,27 @@ def dict2djikml (dic,output_filename,reverse_coordonates_transformer,
     waypoint_nb=0
     #print(dic)
     for waypoint in dic :
-        #print(waypoint)
-        # 'path_name': 'prof1',
-        # 'path_az': 200.65033592212384,
-        # 'drone_e': 764492.0107411736,
-        # 'drone_n': 6362186.929337244,
-        # 'drone_z': 1262.9225386835942,
-        # 'drone_pitch': -75.0,
-        # 'drone_fov_lat': 52.17119955656284,
-        # 'drone_fov_lon': 36.22411610965541,
-        # 'drone_az': -45}
+        #     "Point_name": "RTH",
+        #     "long": -6.255055093404169,
+        #     "lat": 37.44088650083901,
+        #     "elev": 68.53300727087723
 
 
-        name = 'WP_'+str(waypoint_nb)
-        lat , lon = reverse_coordonates_transformer.transform(waypoint['drone_e'],waypoint['drone_n'])
-        tmp_extra_point= WayPoint(lat, lon,wp_text=name,alt=str(waypoint['drone_z']))
-        extra_points.append(tmp_extra_point)
-        height = waypoint['drone_z']
+        name = 'WP_'+str(waypoint['Point_name'])
+        lat = waypoint['lat']
+        lon = waypoint['long']
+
+        tmp_extra_point= WayPoint(lat, 
+                                  lon,
+                                  wp_text=name,
+                                  alt=str(altitude))
         
-        heading = waypoint['drone_az']
+        extra_points.append(tmp_extra_point)
 
-        gimbal = waypoint['drone_pitch']
+        height = altitude
+        
+        heading = 0
+        gimbal = 0
 
         actions_sequence = ON_FINISH
 
@@ -191,4 +197,5 @@ def dict2djikml (dic,output_filename,reverse_coordonates_transformer,
 
     with open(output_filename, 'w',encoding="utf-8") as output_file:
         output_file.write(XML_string)
+
     return extra_points
