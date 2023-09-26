@@ -69,7 +69,22 @@ def main():
                           speed = 2,
                           turnmode = 'Auto',
                           over_time_before_picture=1)
-  
-  
+  print(wp_extras[0])
+
+
+# Create the map
+  the_map = WaypointMap(wp_extras[0])
+
+  # waypoints to the map
+  for waypoint in wp_extras:
+      the_map.add_waypoint(waypoint, direction=False,
+                            footprint=False, footprint_markers=False)
+
+  the_map.add_colored_waypoint_path(wp_extras)
+
+  # Export html map
+  the_map.export_to_file(output_dir.joinpath('project_name'+'.html'))
+
+
 if __name__ == '__main__':
   main()
