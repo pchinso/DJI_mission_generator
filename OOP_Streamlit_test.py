@@ -1,33 +1,38 @@
 import streamlit as st
+from mission_planning import create_mission_for_DJI_Pilot
 
 class StreamlitApp:
     def __init__(self):
         self.current_screen = None
-        self.screens = ["Home", 
-                        "About", 
-                        "Contact",
-                        ]
         
         self.screens = [
         {
-        'title': 'Home',
-        'header': 'Home Screen',
-        'write': 'Welcome to the home screen!',
-        'image': 'images/Me_profile_pic.jpeg',
-        'image_caption': 'Home image',
+        'title': 'Input Coordinates',
+        'header': 'Upload your .json coordinates files',
+        'write': """Provide a coodinates files like this format,
+
+                 { 
+                   "Point_name": "Name", 
+                   "long": -6.255055093404169, 
+                   "lat": 37.44088650083901, 
+                   "elev": 68.53300727087723 
+                  }"""
+                  ,
+        'image': 'img/m200.jpeg',
+        'image_caption': 'Matrice M200 v2',
         },
         {
         'title': 'About',
         'header': 'About Screen',
         'write': 'This is the about screen.',
-        'image': 'images/Me_profile_pic.jpeg',
+        'image': 'img/m200.jpeg',
         'image_caption': 'About image',
         },
         {
         'title': 'Contact',
         'header': 'Contact Screen',
         'write': 'You can contact us at contact@example.com',
-        'image': 'images/Me_profile_pic.jpeg',
+        'image': 'img/m200.jpeg',
         'image_caption': 'Contact image',
         },
         {
@@ -49,7 +54,7 @@ class StreamlitApp:
     def run(self):
 
         # Main App Title
-        st.title("Object-Oriented Streamlit App")
+        st.title("DJI Mission Planner Tool for for Matrice M200 v2 as .klm")
         
         self.show_screen()
             
@@ -71,15 +76,30 @@ class StreamlitApp:
         if self.screens[screen_index]['image'] != '':
             try:
                 st.image(self.screens[screen_index]['image'], 
-                        caption=self.screens[screen_index]['image_caption']
+                        caption=self.screens[screen_index]['image_caption'],
                         )
                 
             except FileNotFoundError:
                 st.error("File not found. Please provide a valid file path.")      
 
-            
         # Update current screen
         self.current_screen = self.navigation
+
+        print(self.current_screen)
+
+        if self.current_screen == self.screens[0]['title']:
+            coordinates_file = st.file_uploader("Upload coordinates .json file", type="json")
+            print(coordinates_file)
+
+            if coordinates_file is not None:
+
+                project_name = 'test1'
+                output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/img/'
+
+                create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
+
+
+
         
 if __name__ == "__main__":
 
