@@ -24,25 +24,25 @@ import json
 
 
 def load_json(json_path):
-  # Open and read the JSON file
-  with open(json_path, 'r') as file:
+  
+  try:
+    # Open and read the JSON file
+    with open(json_path, 'r') as file:
+      data = json.load(file)
+  except TypeError:
+    file = json_path
     data = json.load(file)
 
   return(data)
    
-def create_mission_for_DJI_Pilot():
+def create_mission_for_DJI_Pilot(coordinates_path, project_name, output_dir):
 
-  coordinates_path = '/home/pcs/Documents/Python/DJI_mission_generator/sample_klm_dji_pilot/coordinates.json'
-  project_name = 'test1'
+  final_waypoint_dict = load_json(coordinates_path)
 
-  output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/mission/'
   output_dir =  Path(output_dir)
 
   if not os.path.exists(output_dir):
     os.mkdir(output_dir)
-
-
-  final_waypoint_dict = load_json(coordinates_path)
 
   wp_extras = dict2djikml(final_waypoint_dict, 
                           output_dir.joinpath(project_name +'_for_PILOT.kml'),
@@ -70,4 +70,10 @@ def create_mission_for_DJI_Pilot():
 
 
 if __name__ == '__main__':
-  create_mission_for_DJI_Pilot()
+
+  coordinates_path = '/home/pcs/Documents/Python/DJI_mission_generator/sample_klm_dji_pilot/coordinates.json'
+  project_name = 'test1'
+
+  output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/mission/'
+
+  create_mission_for_DJI_Pilot(coordinates_path, project_name, output_dir)
