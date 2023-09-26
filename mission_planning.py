@@ -23,44 +23,29 @@ from drones import Drones
 import json
 
 
-
-
-def load_coordinates_json(json_path):
+def load_json(json_path):
   # Open and read the JSON file
   with open(json_path, 'r') as file:
     data = json.load(file)
 
   return(data)
    
+def create_mission_for_DJI_Pilot():
 
-
-def main():
-
-  '''
-  def dict2djikml (dic,
-                  output_filename,
-                  reverse_coordonates_transformer,
-                  altitude,
-                  onfinish='hover',
-                  speed = 5,
-                  turnmode = 'Auto',
-                  over_time_before_picture=0):
-                 
-  '''
-  output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/'
   coordinates_path = '/home/pcs/Documents/Python/DJI_mission_generator/sample_klm_dji_pilot/coordinates.json'
+  project_name = 'test1'
 
+  output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/mission/'
   output_dir =  Path(output_dir)
 
+  if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 
-  final_waypoint_dict = load_coordinates_json(coordinates_path)
-  print(final_waypoint_dict)
 
-#                           reverse_coordonates_transformer,
-
+  final_waypoint_dict = load_json(coordinates_path)
 
   wp_extras = dict2djikml(final_waypoint_dict, 
-                          output_dir.joinpath('project_name'+'_for_PILOT.kml'),
+                          output_dir.joinpath(project_name +'_for_PILOT.kml'),
                           altitude=35,
                           gimbal=[-900,-450, -300, -150],
                           heading=0,
@@ -69,8 +54,6 @@ def main():
                           speed = 2,
                           turnmode = 'Auto',
                           over_time_before_picture=1)
-  print(wp_extras[0])
-
 
 # Create the map
   the_map = WaypointMap(wp_extras[0])
@@ -83,8 +66,8 @@ def main():
   the_map.add_colored_waypoint_path(wp_extras)
 
   # Export html map
-  the_map.export_to_file(output_dir.joinpath('project_name'+'.html'))
+  the_map.export_to_file(output_dir.joinpath(project_name +'.html'))
 
 
 if __name__ == '__main__':
-  main()
+  create_mission_for_DJI_Pilot()
