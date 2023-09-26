@@ -213,8 +213,12 @@ def dict2djikml (dic,
     all_coordinates = all_coordinates[:-1]
     XML_string += xml_end.substitute(all_coordinates=all_coordinates,
                                      ON_FINISH=ON_FINISH, altitude=altitude)
-
-    with open(output_filename, 'w',encoding="utf-8") as output_file:
+    try:
+      with open(output_filename, 'x',encoding="utf-8") as output_file:
         output_file.write(XML_string)
+    except FileNotFoundError:
+      with open(output_filename, 'w',encoding="utf-8") as output_file:
+        output_file.write(XML_string)       
+
 
     return extra_points
