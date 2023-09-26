@@ -62,11 +62,14 @@ def main():
   wp_extras = dict2djikml(final_waypoint_dict, 
                           output_dir.joinpath('project_name'+'_for_PILOT.kml'),
                           altitude=35,
-                          onfinish='gohome', 
-                          speed=5, 
-                          over_time_before_picture=0)
-   
-
-
+                          gimbal=[-900,-450, -300, -150],
+                          heading=0,
+                          N_photos=4,
+                          onfinish='hover',
+                          speed = 2,
+                          turnmode = 'Auto',
+                          over_time_before_picture=1)
+  
+  
 if __name__ == '__main__':
   main()
