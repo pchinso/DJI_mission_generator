@@ -7,9 +7,12 @@ from waypoint import WayPoint
 
 def dict2djikml (dic,
                  output_filename,
-                 altitude,
+                 altitude=35,
+                 gimbal=[-900],
+                 heading=0,
+                 N_photos=2,
                  onfinish='hover',
-                 speed = 5,
+                 speed = 2,
                  turnmode = 'Auto',
                  over_time_before_picture=0):
     extra_points=[]
@@ -88,6 +91,7 @@ def dict2djikml (dic,
           </Placemark>""")
     hover_template = Template("""
               <mis:actions param="$over_time_before_picture" accuracy="0" cameraIndex="0" payloadType="0" payloadIndex="0">Hovering</mis:actions>""")
+    
     shoot_template = Template("""
               <mis:actions param="0" accuracy="0" cameraIndex="0" payloadType="0" payloadIndex="0">ShootPhoto</mis:actions>""")
 
@@ -96,6 +100,8 @@ def dict2djikml (dic,
 
     gimbal_template = Template("""
               <mis:actions param="$gimbal_angle" accuracy="1" cameraIndex="0" payloadType="0" payloadIndex="0">GimbalPitch</mis:actions>""")
+    
+    
     aircraftyaw_template = Template("""
               <mis:actions param="$aircraftyaw" accuracy="0" cameraIndex="0" payloadType="0" payloadIndex="0">AircraftYaw</mis:actions>""")
     record_template = Template("""
@@ -168,23 +174,36 @@ def dict2djikml (dic,
         extra_points.append(tmp_extra_point)
 
         height = altitude
-        
-        heading = 0
-        gimbal = 0
 
-        actions_sequence = ON_FINISH
-
-        gimbal=str(gimbal)
-        if '.' not in gimbal:
-            gimbal = gimbal+'.0'
+        gimbal_str=str(gimbal[0])
+        if '.' not in gimbal_str:
+          gimbal_str = gimbal_str +'.0'
 
         #print(F'{name}\t{lat}\t{lon}\t{heading}\t{gimbal}')
         XML_string += waypoint_start.substitute(
             turnmode=turnmode, waypoint_number=waypoint_nb,
-             speed=speed, heading=heading, gimbal=gimbal)
-        if over_time_before_picture > 0:
-          XML_string +=  hover_template.substitute(over_time_before_picture=over_time_before_picture)
-        XML_string += shoot_str
+            speed=speed, heading=heading, gimbal=gimbal_str)        
+        
+        # Actions
+        for photo in range(0,N_photos):
+          # actions_sequence = ON_FINISH
+        
+          # Hover before photo 
+          if over_time_before_picture > 0:
+            XML_string +=  hover_template.substitute(over_time_before_picture=over_time_before_picture)
+          
+          # Gimbal Orientation
+          gimbal_str=str(gimbal[photo])
+          if '.' not in gimbal_str:
+            gimbal_str = gimbal_str +'.0'
+
+          if abs(float(gimbal_str)) > 0:
+            print('gimbal angle: ', gimbal_str)
+            XML_string +=  gimbal_template.substitute(gimbal_angle=gimbal_str)                            
+          
+          #Take Photo
+          XML_string += shoot_str
+
         XML_string += waypoint_end.substitute(lon=lon, lat=lat, height=height,)+"\n"
 
         all_coordinates += all_coordinates_template.substitute(
