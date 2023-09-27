@@ -14,12 +14,13 @@ from pygeodesy.sphericalTrigonometry import LatLon
 from pygeodesy.sphericalNvector import intersection, LatLon as LatLonS
 from pygeodesy.points import isclockwise, isconvex, centroidOf
 from pyproj import Transformer
-from utils import get_angle_wp,background_foreground_color, background_color, foreground_color
-from waypoint import WayPoint
-from waypointsmap import WaypointMap
-from dict2djikml import dict2djikml
-from drone_orientation.classes.droneorientation import DroneOri
-from drones import Drones
+# functions
+from functions.utils import get_angle_wp,background_foreground_color, background_color, foreground_color
+from functions.waypoint import WayPoint
+from functions.waypointsmap import WaypointMap
+from functions.dict2djikml import dict2djikml
+from functions.drone_orientation.classes.droneorientation import DroneOri
+from functions.drones import Drones
 
 # https://nbviewer.jupyter.org/github/python-visualization/folium/blob/master/examples/Rotate_icon.ipynb
 # rotation des icones

@@ -1,5 +1,5 @@
 import streamlit as st
-from mission_planning import create_mission_for_DJI_Pilot
+from functions import mission_planning
 
 class StreamlitApp:
     def __init__(self):
@@ -88,17 +88,17 @@ class StreamlitApp:
         print(self.current_screen)
 
         if self.current_screen == self.screens[0]['title']:
-            coordinates_file = st.file_uploader("Upload coordinates .json file", type="json")
-            print(coordinates_file)
+            coordinates_file = st.file_uploader("Upload coordinates .json file", 
+                                                type="json"
+                                                )
+            print('Uploaded: ', coordinates_file)
 
             if coordinates_file is not None:
 
                 project_name = 'test1'
                 output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/img/'
 
-                create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
-
-
+                mission_planning.create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
 
         
 if __name__ == "__main__":

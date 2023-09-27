@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 import json
 import sys
-from utils import background_foreground_color, background_color
+from functions.utils import background_foreground_color, background_color
 # Json valider
 # https://jsonlint.com/
 

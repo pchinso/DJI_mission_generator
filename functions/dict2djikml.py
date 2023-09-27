@@ -1,6 +1,6 @@
 from string import Template
 import sys
-from waypoint import WayPoint
+from functions.waypoint import WayPoint
 
 # Removed
 #                  reverse_coordonates_transformer,

@@ -3,7 +3,8 @@
 from math import atan, degrees, sqrt
 from pygeodesy.sphericalTrigonometry import LatLon
 from pygeodesy.sphericalNvector import LatLon as LatLonS
-from utils import do_intersect
+
+from functions.utils import do_intersect
 
 
 class WayPoint:
