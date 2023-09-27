@@ -1,5 +1,13 @@
 import streamlit as st
 from functions import mission_planning
+from datetime import datetime
+
+def today_str():
+
+    today = datetime.today()
+    formatted_date = today.strftime('%Y%m%d')
+    
+    return str(formatted_date)
 
 class StreamlitApp:
     def __init__(self):
@@ -95,12 +103,18 @@ class StreamlitApp:
 
             if coordinates_file is not None:
 
-                project_name = 'test1'
-                output_dir = '/home/pcs/Documents/Python/DJI_mission_generator/img/'
+                project_name = today_str()
+                output_dir = str('/home/pcs/Documents/Python/DJI_mission_generator/' 
+                                 + today_str() 
+                                 + '_mission/'
+                                 )
 
-                mission_planning.create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
+                project_name = st.text_input("Enter project name", project_name)
+                output_dir = st.text_input("Enter project name", output_dir)
 
-        
+                if st.button("GENERATE MISSION"):
+                    mission_planning.create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
+
 if __name__ == "__main__":
 
     app = StreamlitApp()
