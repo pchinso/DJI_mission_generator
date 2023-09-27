@@ -37,7 +37,18 @@ def load_json(json_path):
 
   return(data)
    
-def create_mission_for_DJI_Pilot(coordinates_path, project_name, output_dir):
+def create_mission_for_DJI_Pilot(coordinates_path, 
+                                 project_name, 
+                                 output_dir,
+                                 altitude,
+                                 gimbal,
+                                 heading,
+                                 N_photos,
+                                 onfinish,
+                                 speed,
+                                 turnmode,
+                                 over_time_before_picture,
+                                 ):
 
   final_waypoint_dict = load_json(coordinates_path)
 
@@ -48,14 +59,14 @@ def create_mission_for_DJI_Pilot(coordinates_path, project_name, output_dir):
 
   wp_extras = dict2djikml(final_waypoint_dict, 
                           output_dir.joinpath(project_name +'_for_PILOT.kml'),
-                          altitude=35,
-                          gimbal=[-900,-450, -300, -150],
-                          heading=0,
-                          N_photos=4,
-                          onfinish='hover',
-                          speed = 2,
-                          turnmode = 'Auto',
-                          over_time_before_picture=1)
+                          altitude,
+                          gimbal,
+                          heading,
+                          N_photos,
+                          onfinish,
+                          speed,
+                          turnmode,
+                          over_time_before_picture)
 
 # Create the map
   the_map = WaypointMap(wp_extras[0])

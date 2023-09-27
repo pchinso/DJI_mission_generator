@@ -1,6 +1,8 @@
 import streamlit as st
 from functions import mission_planning
 from datetime import datetime
+import ast
+
 
 def today_str():
 
@@ -8,6 +10,19 @@ def today_str():
     formatted_date = today.strftime('%Y%m%d')
     
     return str(formatted_date)
+
+def convert_string_to_list(string):
+    try:
+        # Safely evaluate the input string as a Python list
+        result = ast.literal_eval(string)
+        # Ensure that the result is a list
+        if isinstance(result, list):
+            return result
+        else:
+            raise ValueError("Input is not a valid Python list.")
+    
+    except (SyntaxError, ValueError) as e:
+        raise ValueError("Input is not a valid string representation of a Python list.") from e
 
 class StreamlitApp:
     def __init__(self):
@@ -112,8 +127,43 @@ class StreamlitApp:
                 project_name = st.text_input("Enter project name", project_name)
                 output_dir = st.text_input("Enter project name", output_dir)
 
+                altitude = int(st.text_input('Set mission altitude', '35'))
+                
+                gimbal = [-900,-450, -300, -150] 
+                gimbal = convert_string_to_list(
+                            st.text_input('Set mission gimbal inclinations', 
+                                          '[-900,-450, -300, -150]'
+                                          )
+                            )
+
+                heading = int(st.text_input('Set mission heading' , '0'))
+
+                N_photos = int(st.text_input('Set mission number of photos' , len(gimbal)))
+
+                # 'hover','gohome','autoland','gofirstpoint'
+                onfinish = st.text_input('Set mission on finish action: (hover,gohome,autoland,gofirstpoint)', 
+                                         'gohome'
+                                         )
+                
+                speed = int(st.text_input('Set mission speed', '2'))
+
+                turnmode = st.text_input('Set mission turnmode', 'Auto')
+
+                over_time_before_picture = int(st.text_input('Set mission time before shoot' , '1'))
+
                 if st.button("GENERATE MISSION"):
-                    mission_planning.create_mission_for_DJI_Pilot(coordinates_file, project_name, output_dir)
+                    mission_planning.create_mission_for_DJI_Pilot(coordinates_file, 
+                                                                  project_name, 
+                                                                  output_dir,
+                                                                  altitude,
+                                                                  gimbal,
+                                                                  heading,
+                                                                  N_photos,
+                                                                  onfinish,
+                                                                  speed,
+                                                                  turnmode,
+                                                                  over_time_before_picture
+                                                                  )
 
 if __name__ == "__main__":
 
