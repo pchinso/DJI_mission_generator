@@ -10,7 +10,7 @@ def dict2djikml (dic,
                  altitude=35,
                  gimbal=[-900],
                  heading=0,
-                 N_photos=2,
+                 N_photos=1,
                  onfinish='hover',
                  speed = 2,
                  turnmode = 'Auto',
@@ -214,11 +214,10 @@ def dict2djikml (dic,
     XML_string += xml_end.substitute(all_coordinates=all_coordinates,
                                      ON_FINISH=ON_FINISH, altitude=altitude)
     try:
-      with open(output_filename, 'x',encoding="utf-8") as output_file:
+      with open(output_filename, 'w',encoding="utf-8") as output_file:
         output_file.write(XML_string)
     except FileNotFoundError:
-      with open(output_filename, 'w',encoding="utf-8") as output_file:
+      with open(output_filename, 'x',encoding="utf-8") as output_file:
         output_file.write(XML_string)       
-
 
     return extra_points
