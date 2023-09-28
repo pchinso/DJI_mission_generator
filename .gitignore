@@ -32,18 +32,8 @@ Temporary Items
 .apdisk
 .vscode
 
-# End of https://www.toptal.com/developers/gitignore/api/macos
-
-Biblio/___milechcabreira2018.pdf
-Biblio/CTDR_2020__Camera_Ready_Taua_Cabreira.pdf
-Biblio/difranco2016.pdf
-*.ipynb
-jupyter_holoviews/ml_annotators/anaconda-project.yml
-jupyter_holoviews/ml_annotators/README.md
-jgitignore
 *.svg
 *.kml
 *.svg
 *.html
-*.png
-.idea
+
