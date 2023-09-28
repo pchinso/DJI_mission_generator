@@ -2,6 +2,8 @@ import streamlit as st
 from functions import mission_planning
 from datetime import datetime
 import ast
+import time
+import pyautogui
 
 
 def today_str():
@@ -45,33 +47,19 @@ class StreamlitApp:
         'image_caption': 'Matrice M200 v2',
         },
         {
-        'title': 'About',
-        'header': 'About Screen',
-        'write': 'This is the about screen.',
-        'image': 'img/m200.jpeg',
-        'image_caption': 'About image',
-        },
-        {
         'title': 'Contact',
         'header': 'Contact Screen',
         'write': 'You can contact us at contact@example.com',
         'image': 'img/m200.jpeg',
         'image_caption': 'Contact image',
-        },
-        {
-        'title': 'Send',
-        'header': 'Send Results',
-        'write': 'Sending results to contact@example.com',
-        'image': '',
-        'image_caption': 'No Image',
-        },        
+        },    
         ]
 
         self.radio_buttons = [screen['title'] for screen in self.screens]
 
 
         self.navigation = st.sidebar.radio("Select Screen", 
-                                           self.radio_buttons
+                                           self.radio_buttons,
                                            )
 
     def run(self):
@@ -117,7 +105,8 @@ class StreamlitApp:
             print('Uploaded: ', coordinates_file)
 
             if coordinates_file is not None:
-
+                
+                mission = ''
                 project_name = today_str()
                 output_dir = str('/home/pcs/Documents/Python/DJI_mission_generator/' 
                                  + today_str() 
@@ -128,7 +117,7 @@ class StreamlitApp:
                 output_dir = st.text_input("Enter project name", output_dir)
 
                 altitude = int(st.text_input('Set mission altitude', '35'))
-                
+
                 gimbal = [-900,-450, -300, -150] 
                 gimbal = convert_string_to_list(
                             st.text_input('Set mission gimbal inclinations', 
@@ -164,6 +153,10 @@ class StreamlitApp:
                                                                   turnmode,
                                                                   over_time_before_picture
                                                                   )
+                    st.write('Mission created!')
+                    time.sleep(1)
+                    pyautogui.hotkey("ctrl","F5")
+
 
 if __name__ == "__main__":
 
