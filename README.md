@@ -46,17 +46,18 @@ This app allows you to create a .klm mission plan for DJI Pilot with actions con
 
 ![Input coordinates (.json file)](./img/Input_coordinates.png)
 
-- After upload, set mission variables:
-    Enter project name
-    Enter project name
-    Set mission altitude
-    Set mission gimbal inclinations
-    Set mission heading
-    Set mission number of photos
-    Set mission on finish action: (hover,gohome,autoland,gofirstpoint)
-    Set mission speed
-    Set mission turnmode
-    Set mission time before shoot
+After upload, set mission variables:
+
+- Enter project name
+- Enter project name
+- Set mission altitude
+- Set mission gimbal inclinations
+- Set mission heading
+- Set mission number of photos
+- Set mission on finish action: (hover,gohome,autoland,gofirstpoint)
+- Set mission speed
+- Set mission turnmode
+- Set mission time before shoot
 
 ![Set mission inputs](img/Mission_inputs.png)
 
