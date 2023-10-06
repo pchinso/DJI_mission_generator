@@ -175,9 +175,11 @@ def dict2djikml (dic,
 
         height = altitude
 
+        # Uploading mision with gimbal angle format '-900.0' 
+        # shows gimbal angle error on DJI pilot app
         gimbal_str=str(gimbal[0])
-        if '.' not in gimbal_str:
-          gimbal_str = gimbal_str +'.0'
+        # if '.' not in gimbal_str:
+        #   gimbal_str = gimbal_str +'.0'
 
         #print(F'{name}\t{lat}\t{lon}\t{heading}\t{gimbal}')
         XML_string += waypoint_start.substitute(
@@ -194,8 +196,8 @@ def dict2djikml (dic,
           
           # Gimbal Orientation
           gimbal_str=str(gimbal[photo])
-          if '.' not in gimbal_str:
-            gimbal_str = gimbal_str +'.0'
+          # if '.' not in gimbal_str:
+          #   gimbal_str = gimbal_str +'.0'
 
           if abs(float(gimbal_str)) > 0:
             print('gimbal angle: ', gimbal_str)
